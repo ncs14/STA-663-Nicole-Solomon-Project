@@ -1,4 +1,5 @@
-STA_663_Final_Project.pdf: STA_663_Final_Project.tex
+STA_663_Final_Project.pdf: STA_663_Final_Project.ipynb
+	ipython nbconvert --to latex STA_663_Final_Project.ipynb
 	pdflatex STA_663_Final_Project
 	pdflatex STA_663_Final_Project
 	pdflatex STA_663_Final_Project
