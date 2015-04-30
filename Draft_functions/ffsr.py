@@ -28,7 +28,7 @@ def df_type(dat):
 
     
 """ p-value computation function """
-def pval_comp(max_size=None):
+def pval_comp(max_size=None,col_incl=None):
     
     """
     ### Purpose:
@@ -39,6 +39,7 @@ def pval_comp(max_size=None):
     
     ### Input params:
     #   max_size = integer max no. of vars in final model (largest model size desired)
+    #   col_incl = array vector of columns to forcefully include in all models
     
     ### Output:
     #   array of p-values of each covariate at its given entry step
@@ -61,8 +62,14 @@ def pval_comp(max_size=None):
     # compute the F stats as defined above where p_f - p_r = 1 for each iteration
     fstats = (rss[0:max_size] - rss[1:(max_size+1)]) / (rss[1:(max_size+1)] / (N - (sizes+1)))
     
-    # return the p-values by comparing these stats to the F distn: F(1, n - p_f)
-    return 1 - st.f.cdf(fstats, 1, N-(sizes+1))
+    # compute p-values by comparing these stats to the F distn: F(1, n - p_f)
+    p = 1 - st.f.cdf(fstats, 1, N-(sizes+1))
+    
+    if col_incl==None:
+        return p
+    else:
+        p[:len(col_incl)] = 0.
+        return p
 
 
 
@@ -149,31 +156,31 @@ def forward(x,y,max_size=None,col_incl=None):
     
     
 """ Gamma computation """
-def gamma_F(pvs, ncov, max_size=None):
+def gamma_F(pvs, ncov, sizes):
     
     """
     ### Purpose:
-    #   Compute the gamma (FSR) values at each step in the model build procedure.
+    # Compute the gamma (FSR) values at each step in the model build procedure
      
     ### Input params:
-    #   pvs      = vector of p-values (monotonically increasing) from forward sel procedure
-    #   ncov     = integer total number of covariates in data
-    #   max_size = integer max no. of vars in final model (largest model size desired)
+    #   pvs   = vector of p-values (monotonically increasing) from forward sel procedure
+    #   ncov  = integer total number of covariates in data
+    #   sizes = vector of model sizes
     
     ### Output:
-    #   array of gamma_F values
+    # array of gamma_F values
     """    
     
     import numpy as np
     
-    if max_size==None:
-        max_size = ncov
+    if ncov<len(pvs):
+        raise ValueError("ncov < len(pvals) --> gamma < 0")
         
-    # Create indices == model size at given step, call this S
-    S = np.arange(max_size)+1
-    
+    if max(sizes)>len(pvs):
+        raise ValueError("Largest model size > len(pvals) --> gamma < 0")
+
     # gamma_F_i = p_s_i * (ncov - S_i) / (1 + S_i)
-    g_F = pvs * (ncov - S) / (1 + S)
+    g_F = pvs * (ncov - sizes) / (1 + sizes)
     
     # Check for duplicate p-values
     dups = list(set([x for x in list(pvs) if list(pvs).count(x) > 1]))
@@ -189,31 +196,32 @@ def gamma_F(pvs, ncov, max_size=None):
     
     
 """ Alpha computation for model selection """
-def alpha_F(g0, ncov, max_size=None):
+def alpha_F(g0, ncov, sizes):
     
     """
     ### Purpose:
-    #   Compute alpha-to-enter value corresponding to each step in model build procedure.
+     Compute alpha-to-enter value corresponding to each step in model build procedure
      
     ### Input params:
-    #   g0       = float pre-specified FSR (gamma0)
-    #   ncov     = integer total number of covariates in data
-    #   max_size = integer max no. of vars in final model (largest model size desired)
+    #   g0    = float pre-specified FSR (gamma0)
+    #   ncov  = integer total number of covariates in data
+    #   sizes = vector of model sizes
     
     ### Output:
-    #   array of alpha_F values
+    # array of alpha_F values
     """    
     
     import numpy as np
     
-    if max_size==None:
-        max_size = ncov
+    if max(sizes)>ncov:
+        raise ValueError("Largest model size > ncov --> alpha < 0")
         
-    # Create indices == model size at given step, call this S
-    S = np.arange(max_size)+1
+    ### Check that gamma0 is valid value
+    if g0 <= 0 or g0 >= 1:
+        raise ValueError("Specified gamma0 (FSR) must be in (0,1)")
     
     # alpha_F_i = gamma_0 * (1 + S_i) / (ncov - S_i)
-    alpha_F = g0 * (1 + S) / (ncov - S)
+    alpha_F = g0 * (1 + sizes) / (ncov - sizes)
     
     # if table run on all vars, the last alpha = inf
     #  instead set equal to 1 == include all vars
@@ -228,7 +236,7 @@ def alpha_F_g(g, gf, ncov):
     
     """
     ### Purpose:
-    #   Compute alpha-to-enter for a pre-specified gamma (FSR).
+    # Compute alpha-to-enter for a pre-specified gamma (FSR)
      
     ### Input params:
     #   g    = float or vector (length k) of specified FSR at which to compute alpha
@@ -237,10 +245,14 @@ def alpha_F_g(g, gf, ncov):
     #   ncov = integer of total number covariates in data
     
     ### Output:
-    #   integer alpha_F value
+    # integer alpha_F value
     """
     
     import numpy as np
+    
+    ### Check that gamma0 is valid value
+    if np.any(g <= 0) or np.any(g >= 1):
+        raise ValueError("Specified gamma (FSR) must be in (0,1)")
     
     ### Compute model size for gf closest to (but still <) g
     #S = np.array([max(np.which(x<=y)) for x in gf y in g])+1
@@ -259,23 +271,27 @@ def beta_est(x, y, g, gf, vname):
     
     """
     ### Purpose:
-    #   Compute parameter estimates for final model given a pre-specified gamma (FSR).
+    # Compute parameter estimates for final model given a pre-specified gamma (FSR)
      
     ### Input params:
     #   x      = python dataframe of original p covariates, n x p
     #   y      = python outcome dataframe, n x 1
     #   g      = float of specified FSR at which to compute alpha
     #   gf     = vector gamma_F's computed from gamma0, pv_mono
-    #            used to compute largest size model (S) for which gamma_F < g
+                 used to compute largest size model (S) for which gamma_F < g
     #   vname  = ordered vector of names of vars entered into model under forward selection
     
     ### Output:
-    #   array of estimated parameters
+    # array of estimated parameters
     """
     
     import numpy as np
     import pandas as pd
     import statsmodels.api as sm
+    
+    ### Check that gamma0 is valid value
+    if g <= 0 or g >= 1:
+        raise ValueError("Specified gamma (FSR) must be in (0,1)")
     
     ### Compute model size corresponding to g
     S = min(np.where(gf>g)[0])
@@ -297,7 +313,7 @@ def fsrtable(size, vname, p_orig, p_mono, alphaf, gammaf, prec_f='.4f'):
     
     """
     ### Purpose:
-    # Build the results table for the FFSR function.
+    # Build the results table for the ffsr function
      
     ### Input params:
     #   size   = model size at each step of forward sel proc                   [S]
@@ -309,7 +325,7 @@ def fsrtable(size, vname, p_orig, p_mono, alphaf, gammaf, prec_f='.4f'):
     #   prec_f = string of precision (num digits) desired in FSR output table
     
     ### Output:
-    #   table of [S   Var   p   p_s   alpha_F   gamma_F], dim = num_steps(== p) x 6
+    # table of [S   Var   p   p_s   alpha_F   gamma_F], dim = num_steps(== p) x 6
 """
     
     import numpy as np
@@ -349,17 +365,11 @@ class ffsr_obj4(object): # bag=F, gs=F, beta=F
     def __init__(self, fsr_results):
                     self.fsres = fsr_results
             
-class ffsr_obj5(object): # bag=T
+class bagfsr_obj(object): # bag=T
     def __init__(self, betahats, afg, s):
             self.beta = betahats
             self.alpha = afg
             self.size = s
-            
-class bagfsr_obj(object):
-    def __init__(self, cov_res, avgalpha, avgsize):
-            self.covs = cov_res
-            self.alpha = avgalpha
-            self.size = avgsize
                 
     
     
@@ -368,14 +378,8 @@ def ffsr(dat,g0=0.05,betaout=False,gs=None,max_size=None,var_incl=None,prec_f='.
     
     """
     ### Purpose:
-    #   Perform the Fast False Selection Rate procedure with linear regression.
-    
-    ### NOTE: Outcome variable must be in FIRST column of dataset 'dat'
-    
-    ### NOTE: If bagging necessary with FFSR, use function 'bagfsr()' in this module.
-    
-    ### NOTE: Appropriate covariate transformations are expected to have been applied prior 
-    ###       to utilization of this FSR algorithm.
+     Perform the Fast False Selection Rate procedure with linear regression.
+     If want to incorporate bagging with FFSR, use 'bagfsr()'
      
     ### Input params:
     #   dat      = python dataframe of original p covariates, 1 outcome (in first col.): n x p+1
@@ -403,6 +407,10 @@ def ffsr(dat,g0=0.05,betaout=False,gs=None,max_size=None,var_incl=None,prec_f='.
     
     import numpy as np
     import pandas as pd
+    
+    ### Check that gamma0 is valid value
+    if g0 <= 0 or g0 >= 1:
+        raise ValueError("Specified gamma0 (FSR) must be in (0,1)")
     
     ### Clean and check data - make sure dat = pandas dataframes or else convert them
     if df_type(dat)==True:
@@ -435,23 +443,23 @@ def ffsr(dat,g0=0.05,betaout=False,gs=None,max_size=None,var_incl=None,prec_f='.
     cov_entry_order = cov_order(d.columns.values[1:], max_size, var_incl)
     
     ### Compute p-value of each covariate entering the model
-    p_orig = pval_comp(max_size)
+    p_orig = pval_comp(max_size, var_incl)
     
     ### Arrange p-values in mono. inc. order
     p_mono = np.array([max(p_orig[:(i+1)]) for i in range(len(p_orig))])
-        
+    
+    ### Model size
+    S = np.array([len(np.where(p_mono<=p_mono[i])[0]) for i in range(len(p_mono))])
+    
     ### Gamma_F computation
-    g_F = gamma_F(p_mono, d.shape[1]-1, max_size)
+    g_F = gamma_F(p_mono, d.shape[1]-1, S)
     
     ### Check if betaout desired, if so compute beta_hat of model corresponding to specific gamma0
     if betaout==True:
         betahats = beta_est(d.iloc[:,1:], pd.DataFrame(d.iloc[:,0]), g0, g_F, cov_entry_order)
         
     ### Alpha_F computation for all steps in fwd sel proc
-    a_F = alpha_F(g0, d.shape[1]-1, max_size)
-
-    ### Model size
-    S = np.arange(max_size)+1
+    a_F = alpha_F(g0, d.shape[1]-1, S)
 
     ### Combine S, Cov_names, p-vals, sorted p-vals, alpha_F, gamma_F into table
     fsr_results = fsrtable(S, cov_entry_order, p_orig, p_mono, a_F, g_F)
@@ -469,7 +477,7 @@ def ffsr(dat,g0=0.05,betaout=False,gs=None,max_size=None,var_incl=None,prec_f='.
         if betaout==True:
             return ffsr_obj3(fsr_results, betahats)
         else:
-            return ffsr_obj4(fsr_results)    
+            return ffsr_obj4(fsr_results)      
     
     
     
@@ -516,13 +524,16 @@ def ffsr_bag(dat,g0=0.05,max_size=None,var_incl=None,prec_f='.4f'):
     cov_entry_order = cov_order(dat.columns.values[1:], max_size, var_incl)
     
     ### Compute p-value of each covariate entering the model
-    p_orig = pval_comp(max_size)
+    p_orig = pval_comp(max_size, var_incl)
     
     ### Arrange p-values in mono. inc. order
     p_mono = np.array([max(p_orig[:(i+1)]) for i in range(len(p_orig))])
+    
+    ### Model size
+    S = np.array([len(np.where(p_mono<=p_mono[i])[0]) for i in range(len(p_mono))])
         
     ### Gamma_F computation
-    g_F = gamma_F(p_mono, dat.shape[1]-1, max_size)
+    g_F = gamma_F(p_mono, dat.shape[1]-1, S)
     
     ### Compute beta_hat of model corresponding to specific gamma0
     betahats = beta_est(dat.iloc[:,1:], pd.DataFrame(dat.iloc[:,0]), g0, g_F, cov_entry_order)
@@ -560,6 +571,14 @@ def bagfsr(dat,g0,B=200,max_s=None,v_incl=None,prec=4):
     import pandas as pd
     from sklearn.utils import resample
     
+    ### Check that gamma0 is valid value
+    if g0 <= 0 or g0 >= 1:
+        raise ValueError("Specified gamma0 (FSR) must be in (0,1)")
+    
+    ### Check that B is valid value
+    if B <= 0:
+        raise ValueError("B must be > 0")
+        
     ### Clean and check data - make sure X, Y = pandas dataframes or else convert them
     if df_type(dat)==True:
         if isinstance(dat,pd.DataFrame):
