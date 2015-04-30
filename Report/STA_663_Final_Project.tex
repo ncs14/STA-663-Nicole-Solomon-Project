@@ -216,8 +216,8 @@
     
 
     \begin{document}
-    
-    
+    \title{STA 663 Final Project}
+    \author{Nicole Solomon}
     \maketitle
     
     
@@ -336,7 +336,8 @@ perform the following tasks:
     \subsection{Pseudocode}\label{pseudocode}
 
 \begin{verbatim}
-1. Perform forward selection via the `regsubsets` function called in Python via the RPY2 library
+1. Perform forward selection via the `regsubsets` function called in Python via the RPY2 
+   library
 2. Store covariate order of entry into the model
 3. Compute p-values for each sequential covariate entering the model
 4. Monotonize p-values by taking sequential max
@@ -412,7 +413,6 @@ this data in order to compare the efficiency of the Python algorithm.
     \begin{Verbatim}[commandchars=\\\{\}]
 NCSU R Results:
 
-Loading required package: leaps
     S var   pval  pvmax  alpha      g
 1   1   2 0.0000 0.0000 0.0056 0.0000
 2   2   3 0.0001 0.0001 0.0088 0.0004
@@ -434,7 +434,7 @@ Loading required package: leaps
 18 18  19 0.8605 0.8605 0.9500 0.0453
 19 19  16 0.9032 0.9032    Inf 0.0000
    user  system elapsed 
-  0.037   0.003   0.040 
+  0.007   0.000   0.007 
 
 Python Results:
 
@@ -460,9 +460,9 @@ Python Results:
 18  19  x16  0.9032  0.9032  1.0000  0.9032
 
 IPython CPU timings (estimated):
-  User   :       0.19 s.
-  System :       0.02 s.
-Wall time:       0.21 s.
+  User   :       0.03 s.
+  System :       0.00 s.
+Wall time:       0.03 s.
     \end{Verbatim}
 
     \subsection{FFSR function with forced in
