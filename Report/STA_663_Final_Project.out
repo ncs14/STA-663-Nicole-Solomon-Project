@@ -1,0 +1,10 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Fast False Selection Rate Procedure}{section.1}% 2
+\BOOKMARK [1][-]{section.2}{Implementation \046 Pseudocode}{}% 3
+\BOOKMARK [2][-]{subsection.2.1}{Pseudocode}{section.2}% 4
+\BOOKMARK [1][-]{section.3}{Testing, Profiling, Optimization}{}% 5
+\BOOKMARK [1][-]{section.4}{Application and Comparison}{}% 6
+\BOOKMARK [2][-]{subsection.4.1}{Standard FFSR function}{section.4}% 7
+\BOOKMARK [2][-]{subsection.4.2}{FFSR function with forced in variables}{section.4}% 8
+\BOOKMARK [2][-]{subsection.4.3}{FFSR with bagging}{section.4}% 9
+\BOOKMARK [1][-]{section.5}{References}{}% 10

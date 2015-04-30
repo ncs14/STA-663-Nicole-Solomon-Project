@@ -1,0 +1,604 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass{article}
+
+    
+    
+    \usepackage{graphicx} % Used to insert images
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{color} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    
+
+    
+    
+    \definecolor{orange}{cmyk}{0,0.4,0.8,0.2}
+    \definecolor{darkorange}{rgb}{.71,0.21,0.01}
+    \definecolor{darkgreen}{rgb}{.12,.54,.11}
+    \definecolor{myteal}{rgb}{.26, .44, .56}
+    \definecolor{gray}{gray}{0.45}
+    \definecolor{lightgray}{gray}{.95}
+    \definecolor{mediumgray}{gray}{.8}
+    \definecolor{inputbackground}{rgb}{.95, .95, .85}
+    \definecolor{outputbackground}{rgb}{.95, .95, .95}
+    \definecolor{traceback}{rgb}{1, .95, .95}
+    % ansi colors
+    \definecolor{red}{rgb}{.6,0,0}
+    \definecolor{green}{rgb}{0,.65,0}
+    \definecolor{brown}{rgb}{0.6,0.6,0}
+    \definecolor{blue}{rgb}{0,.145,.698}
+    \definecolor{purple}{rgb}{.698,.145,.698}
+    \definecolor{cyan}{rgb}{0,.698,.698}
+    \definecolor{lightgray}{gray}{0.5}
+    
+    % bright ansi colors
+    \definecolor{darkgray}{gray}{0.25}
+    \definecolor{lightred}{rgb}{1.0,0.39,0.28}
+    \definecolor{lightgreen}{rgb}{0.48,0.99,0.0}
+    \definecolor{lightblue}{rgb}{0.53,0.81,0.92}
+    \definecolor{lightpurple}{rgb}{0.87,0.63,0.87}
+    \definecolor{lightcyan}{rgb}{0.5,1.0,0.83}
+    
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{STA\_663\_Final\_Project}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=blue,
+      linkcolor=darkorange,
+      citecolor=darkgreen,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \section{Introduction}\label{introduction}
+
+Model building and selection has applications across countless fields,
+including medicine, biology, and life sciences. The primary interest
+often is to identify those most strongly predictive of the outcome via
+model building. When datasets are abundant in potential covariates there
+may be concern of admitting or retaining possibly meaningless variables.
+To account for and control this ``false'' variable selection, Boos et al
+(2009) developed the fast false selection rate (FFSR) technique. This is
+an algorithm which performs variable selection, model selection, and
+model-sizing under the context of forward selection. These three aspects
+are determined by controlling for the `false selection rate' (FSR) or
+the rate at which unimportant variables are added to the model.
+
+    \subsection{Fast False Selection Rate
+Procedure}\label{fast-false-selection-rate-procedure}
+
+Typical forward selection starts with fitting all covariates to
+univariate models of the outcome and a single predictor: $Y \sim X_i,$
+$i = 1,\ldots,k$. A pre-specified $\alpha$ level is chosen as the cutoff
+p-value level for inclusion vs exclusion from the model. The covariate
+with the smallest p-value, ``$p$-to-enter'', less than $\alpha$ is kept
+and then the process is repeated, with the aforementioned covariate
+inclusively fixed in future models. The sequence of p-values for all $k$
+covariates is called the \textit{forward addition sequence}.
+
+In the context of forward selection, the FSR algorithm requires a
+monotonically increasing forward addition sequence. Hence, if a sequence
+is not monotone, the sequence it altered by carrying the largest $p$
+forward to give a monotonized sequence of p-values: $\tilde{p}.$ These
+are then used to compute the FSR ($\gamma$) level for the model size
+corresponding to each $\tilde{p}.$
+
+FSR is defined as
+\[ \gamma = \mathrm{E}\left\{\frac{U(Y,X)}{1 + I(Y,X) + U(Y,X)}\right\} \]
+where $U(Y,X)$ and $I(Y,X)$ are the number of uninformative and
+informative variables in the given model respectively. Hence,
+$U + I = S$, the size of the current model. The expected value is with
+respect to repeated sampling of the true model, and a 1 is included in
+the denominator to avoid division by 0 and account for an intercept. The
+goal of the FSR procedure is to pre-specify an initial FSR, $\gamma_0$,
+and determine the appropriate $\alpha$-to-enter level to meet this FSR;
+i.e.~what must the cutoff ($\alpha$) for any variable to be included in
+the model be, in order to restrict the rate at which unimportant
+variables enter the model.
+
+Now for a given $\alpha$ the number of uninformative variables in the
+model is $U(\alpha) = U(Y,X)$. This quantity is estimated by
+$U(\alpha) \approx (k - S(\alpha)) \hat{\theta}(\alpha),$ where
+$S(\alpha)$ is the model size at level $\alpha$, $k$ is the total number
+of possible predictors, and so $(k - S(\alpha))$ is an estimate of the
+number of uninformative variables in the dataset. $\hat{\theta}(\alpha)$
+is the estimated rate at which uninformative variables enter the model.
+The original FSR method developed by the same authors estimates
+$\hat{\theta}$ by simulating `phony' variables (unrelated to the
+outcome) and computing the rate at which these enter the model. The new
+`fast' method found via simulations that $\hat{\theta}(\alpha) = \alpha$
+is an acceptable substitute and considerably faster. It was found to be
+produce more accurate predictions than the former FSR when coupled with
+a bagging procedure (Boos et al, 2009). Hence, the fast FSR expression
+is:
+\[ \hat{\gamma}(\alpha) = \frac{(k - S(\alpha))\alpha}{1+S(\alpha)} \]
+
+In this manner one can build a table structured as follows:
+
+\begin{center}
+\begin{tabular}{l|l|l|l|l|l}
+    \hline
+    Size & Variable & p-value & $\tilde{p}$-value & $\hat{\alpha}(\tilde{p})$ & $\hat{\gamma}(\tilde{p})$ \\
+    \hline
+    1 & V1 & 1e-05 & 1e-05 & 0.002 & 0.0004 \\
+    2 & V2 & 0.005 & 0.005 & 0.005 & 0.0120 \\
+    3 & V3 & 0.021 & 0.021 & 0.017 & 0.2040 \\
+    4 & V4 & 0.009 & 0.021 & 0.028 & 0.2040 \\
+    5 & V5 & 0.053 & 0.053 & 0.033 & 0.4241 \\
+    \hline
+\end{tabular}
+\end{center}
+
+where the expression for $\hat{\alpha}$ is
+\[ \hat{\alpha}(\tilde{p}) = \frac{\gamma_0(1+S(\tilde{p}))}{k - S(\tilde{p})}\]
+
+In this manner it is easy to select a model size: the size where
+$\hat{\gamma} < \gamma_0$. Alternatively, if one utilizes a model of
+size $S(\tilde{p})$ with corresponding $\hat{\alpha}(\tilde{p})$ then
+one can look to the table to determine what the FSR of the chosen model
+is.
+
+The goal of this project was to implement this algorithm under linear
+regression in Python. Specifically, functions were be written for the
+Fast FSR technique for three contexts: in its simplest form for pure
+variable selection, allowing for forced inclusion of a subset of
+variables, and with bagging. The code was tested on a dataset available
+from NCSU in order to demonstrate the technique and its efficiency. The
+algorithm was also compared to an equivalent R version of the algorithm
+(Boos, ncsu.edu) on the same dataset to demonstrate the correctness of
+the Python function.
+
+    \section{Implementation \& Pseudocode}\label{implementation-pseudocode}
+
+Traditional forward selection can be slow in sizeable datasets. In order
+to produce an efficient algorithm, the \texttt{regsubsets} function from
+the \texttt{leaps} package in \texttt{R} was utilized to conduct the
+forward selection aspect of the FFSR algorithm. This function utilizes a
+branch-and-bound technique to quickly identify optimal subsets in the
+linear prediction of y by x, rather than fitting all possible models at
+each iteration (Lumley, 2015). The remainder of the algorithm was
+implemented in a modular programming fashion in Python. These modules
+perform the following tasks:
+
+    \subsection{Pseudocode}\label{pseudocode}
+
+\begin{verbatim}
+1. Perform forward selection via the `regsubsets` function called in Python via the RPY2 library
+2. Store covariate order of entry into the model
+3. Compute p-values for each sequential covariate entering the model
+4. Monotonize p-values by taking sequential max
+5. Compute gamma values for each step in model size
+6. Compute alpha values for each monotonized p-value
+7. Compute alpha for a pre-specified gamma (optional)
+8. Estimate parameters for the final fitted model
+\end{verbatim}
+
+Additional functions were written to neatly compile the results, as well
+as check for appropriate data input type. All of these functions are
+called within the primary `ffsr' function. A streamlined version of this
+function was written without the data check or table compilation for the
+sake of bagging. An additional `bag\_fsr' function was written for
+implementation of FFSR with bagging; this function iteratively runs the
+ffsr algorithm on a duplicate of the original data built from randomly
+selecting the original rows with replacement. In this manner the
+resulting parameter estimates can be averaged, akin to model averaging.
+This produces predictions more accurate than those obtained with just
+one application of the FFSR algorithm (Boos, 2009).
+
+    \section{Testing, Profiling,
+Optimization}\label{testing-profiling-optimization}
+
+Unit tests were drafted to assure that functions failed when
+appropriate, and raise specific warnings. The functions passed all unit
+tests as seens below. The code was also profiled to allow for
+optimization to improve efficiency and speed. The primary bottleneck in
+the primary ffsr function is within the forward selection modular
+function. This procedure requires more than 75\% of the time necessary
+to run the functions. Utilizing an \texttt{R} function rather than a
+Python or C function appears to be the reason for the slow speed. This
+issue is addressed in more detail in the next section.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}1}]:} \PY{k+kn}{import} \PY{n+nn}{os}
+        \PY{n}{os}\PY{o}{.}\PY{n}{chdir}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{/home/bitnami/STA\PYZhy{}663\PYZhy{}Nicole\PYZhy{}Solomon\PYZhy{}Project/Tests}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+        \PY{o}{!}py.test
+        \PY{n}{os}\PY{o}{.}\PY{n}{chdir}\PY{p}{(}\PY{l+s}{\PYZsq{}}\PY{l+s}{/home/bitnami/STA\PYZhy{}663\PYZhy{}Nicole\PYZhy{}Solomon\PYZhy{}Project/Report}\PY{l+s}{\PYZsq{}}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+============================= test session starts ==============================
+platform linux2 -- Python 2.7.9 -- py-1.4.25 -- pytest-2.6.3
+collected 31 items 
+
+test\_alpha.py {\ldots}
+test\_alphag.py {\ldots}
+test\_bagfsr.py {\ldots}
+test\_beta.py {\ldots}
+test\_covnames.py .
+test\_df\_type.py ..
+test\_ffsr.py ..
+test\_gamma.py {\ldots}
+test\_pvals.py .
+
+{\color{green}}========================== 31 passed in 2.77 seconds ===========================
+    \end{Verbatim}
+
+    \section{Application and Comparison}\label{application-and-comparison}
+
+The Python algorithm was applied to a NCAA basketball dataset obtained
+from NCSU (Boos, ncsu.edu). The R FFSR algorithm was also applied to
+this data in order to compare the efficiency of the Python algorithm.
+
+    \subsection{Standard FFSR function}\label{standard-ffsr-function}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}2}]:} \PY{o}{\PYZpc{}}\PY{k}{run} ffsr\PYZus{}r\PYZus{}run
+        \PY{o}{\PYZpc{}}\PY{k}{run} \PYZhy{}t \PYZhy{}m ffsr\PYZus{}p\PYZus{}run
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+NCSU R Results:
+
+Loading required package: leaps
+    S var   pval  pvmax  alpha      g
+1   1   2 0.0000 0.0000 0.0056 0.0000
+2   2   3 0.0001 0.0001 0.0088 0.0004
+3   5   5 0.0116 0.0116 0.0214 0.0270
+4   5   4 0.0053 0.0116 0.0214 0.0270
+5   5   7 0.0025 0.0116 0.0214 0.0270
+6   6  17 0.0433 0.0433 0.0269 0.0804
+7   7  15 0.0527 0.0527 0.0333 0.0791
+8  10   6 0.1056 0.1056 0.0611 0.0864
+9  10   9 0.0826 0.1056 0.0611 0.0864
+10 10   8 0.0536 0.1056 0.0611 0.0864
+11 11  12 0.2350 0.2350 0.0750 0.1566
+12 12  10 0.2864 0.2864 0.0929 0.1542
+13 14  13 0.3163 0.3163 0.1500 0.1054
+14 14  18 0.2697 0.3163 0.1500 0.1054
+15 15  11 0.4953 0.4953 0.2000 0.1238
+16 16   1 0.6326 0.6326 0.2833 0.1116
+17 17  14 0.7056 0.7056 0.4500 0.0784
+18 18  19 0.8605 0.8605 0.9500 0.0453
+19 19  16 0.9032 0.9032    Inf 0.0000
+   user  system elapsed 
+  0.037   0.003   0.040 
+
+Python Results:
+
+     S  Var       p     p\_m alpha\_F gamma\_F
+0    1   x2  0.0000  0.0000  0.0056  0.0000
+1    2   x3  0.0001  0.0001  0.0088  0.0004
+2    5   x5  0.0116  0.0116  0.0214  0.0270
+3    5   x4  0.0053  0.0116  0.0214  0.0270
+4    5   x7  0.0025  0.0116  0.0214  0.0270
+5    6  x17  0.0433  0.0433  0.0269  0.0804
+6    7  x15  0.0527  0.0527  0.0333  0.0791
+7   10   x6  0.1056  0.1056  0.0611  0.0864
+8   10   x9  0.0826  0.1056  0.0611  0.0864
+9   10   x8  0.0536  0.1056  0.0611  0.0864
+10  11  x12  0.2350  0.2350  0.0750  0.1566
+11  12  x10  0.2864  0.2864  0.0929  0.1542
+12  14  x13  0.3163  0.3163  0.1500  0.1054
+13  14  x18  0.2697  0.3163  0.1500  0.1054
+14  15  x11  0.4953  0.4953  0.2000  0.1238
+15  16   x1  0.6326  0.6326  0.2833  0.1116
+16  17  x14  0.7056  0.7056  0.4500  0.0784
+17  18  x19  0.8605  0.8605  0.9500  0.0453
+18  19  x16  0.9032  0.9032  1.0000  0.9032
+
+IPython CPU timings (estimated):
+  User   :       0.19 s.
+  System :       0.02 s.
+Wall time:       0.21 s.
+    \end{Verbatim}
+
+    \subsection{FFSR function with forced in
+variables}\label{ffsr-function-with-forced-in-variables}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}3}]:} \PY{o}{\PYZpc{}}\PY{k}{run} ffsr\PYZus{}force\PYZus{}r\PYZus{}run
+        \PY{o}{\PYZpc{}}\PY{k}{run} \PYZhy{}t \PYZhy{}m ffsr\PYZus{}force\PYZus{}p\PYZus{}run
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+NCSU R Results:
+
+    S var   pval  pvmax  alpha      g
+1   3  12 0.0000 0.0000 0.0125 0.0000
+2   3   3 0.0000 0.0000 0.0125 0.0000
+3   3   5 0.0000 0.0000 0.0125 0.0000
+4   4   2 0.0000 0.0000 0.0167 0.0000
+5   6   4 0.0043 0.0043 0.0269 0.0079
+6   6   7 0.0028 0.0043 0.0269 0.0079
+7   8  17 0.0539 0.0539 0.0409 0.0659
+8   8  15 0.0458 0.0539 0.0409 0.0659
+9  11   6 0.0976 0.0976 0.0750 0.0651
+10 11   9 0.0962 0.0976 0.0750 0.0651
+11 11   8 0.0281 0.0976 0.0750 0.0651
+12 12  10 0.2864 0.2864 0.0929 0.1542
+13 14  13 0.3163 0.3163 0.1500 0.1054
+14 14  18 0.2697 0.3163 0.1500 0.1054
+15 15  11 0.4953 0.4953 0.2000 0.1238
+16 16   1 0.6326 0.6326 0.2833 0.1116
+17 17  14 0.7056 0.7056 0.4500 0.0784
+18 18  19 0.8605 0.8605 0.9500 0.0453
+19 19  16 0.9032 0.9032    Inf 0.0000
+   user  system elapsed 
+  0.009   0.001   0.008 
+
+Python Results:
+
+     S  Var       p     p\_m alpha\_F gamma\_F
+0    3  x12  0.0000  0.0000  0.0125  0.0000
+1    3   x3  0.0000  0.0000  0.0125  0.0000
+2    3   x5  0.0000  0.0000  0.0125  0.0000
+3    4   x2  0.0000  0.0000  0.0167  0.0000
+4    6   x4  0.0043  0.0043  0.0269  0.0079
+5    6   x7  0.0028  0.0043  0.0269  0.0079
+6    8  x17  0.0539  0.0539  0.0409  0.0659
+7    8  x15  0.0458  0.0539  0.0409  0.0659
+8   11   x6  0.0976  0.0976  0.0750  0.0651
+9   11   x9  0.0962  0.0976  0.0750  0.0651
+10  11   x8  0.0281  0.0976  0.0750  0.0651
+11  12  x10  0.2864  0.2864  0.0929  0.1542
+12  14  x13  0.3163  0.3163  0.1500  0.1054
+13  14  x18  0.2697  0.3163  0.1500  0.1054
+14  15  x11  0.4953  0.4953  0.2000  0.1238
+15  16   x1  0.6326  0.6326  0.2833  0.1116
+16  17  x14  0.7056  0.7056  0.4500  0.0784
+17  18  x19  0.8605  0.8605  0.9500  0.0453
+18  19  x16  0.9032  0.9032  1.0000  0.9032
+
+IPython CPU timings (estimated):
+  User   :       0.04 s.
+  System :       0.00 s.
+Wall time:       0.04 s.
+    \end{Verbatim}
+
+    \subsection{FFSR with bagging}\label{ffsr-with-bagging}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}4}]:} \PY{o}{\PYZpc{}}\PY{k}{run} ffsr\PYZus{}bag\PYZus{}r\PYZus{}run
+        \PY{o}{\PYZpc{}}\PY{k}{run} \PYZhy{}t \PYZhy{}m ffsr\PYZus{}bag\PYZus{}p\PYZus{}run
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+NCSU R Results:
+
+   user  system elapsed 
+  0.733   0.010   0.749 
+
+[1] "Mean of estimated alpha-to-enter: 0.0454"
+
+[1] "Mean size of selected model: 7.69"
+
+Python Results:
+
+
+Mean of estimated alpha-to-enter: 0.0503
+
+Mean size of selected model: 7.095
+
+IPython CPU timings (estimated):
+  User   :       6.71 s.
+  System :       0.27 s.
+Wall time:       6.01 s.
+    \end{Verbatim}
+
+    As seen in the results above, the Python algorithm yields results
+identical to those returned by the R algorithm. The bagging results
+differ somewhat due to the random resampling in Python and R that cannot
+be matched via setting identical seeds. These results overall
+demonstrate the validity of the Python FFSR function. However, the
+Python algorithm is significantly slower than the R function. This is
+due to the overhead time spent in calling R, running the R function
+\texttt{regsubsets}, and then returning the results for
+processing.\\This procedure would be significantly faster and
+competitive with the equivalent R algorithm if the Fortran code upon
+which \texttt{regsubsets} is based were to be wrapped in C and thereby
+made directly callable in Python. This is a daunting task however as the
+original Fortran code is of the type Fortran 77 and was written decades
+ago (Lumley, github.com). At the very least, an alternative, but
+performance-wise competitive, forward selection procedure is necessary
+to improve the Python algorithm beyond its current speed.
+
+    \section{References}\label{references}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Boos D, Stefanski L, and Wu Y. ``Fast FSR Variable Selection with
+  Applications to Clinical Trials.'' \emph{Biometrics}. 2009; 65(3):
+  692-700.
+\item
+  Boos D and Stefanski L. ``Fast FSR: Controlling the False Selection
+  Rate without Simulation.'' NCSU.
+  http://www4.stat.ncsu.edu/\textasciitilde{}boos/var.select/fast.fsr.html.
+\item
+  Thomas Lumley. ``Package `leaps'\,''. R Foundation for Statistical
+  Computing, 2015. Version 2.9.
+\item
+  Thomas Lumley and Alan Miller. ``cran/leaps.''
+  https://github.com/cran/leaps/tree/master/src.
+\end{enumerate}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
