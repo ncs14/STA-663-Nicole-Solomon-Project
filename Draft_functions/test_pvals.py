@@ -1,7 +1,7 @@
 
 from ffsr import *
-from numpy.testing import assert_raises
 
+import readline
 import rpy2.robjects as ro
 import pandas.rpy.common as com
 

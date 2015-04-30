@@ -2,6 +2,7 @@
 import ffsr as f
 from numpy.testing import assert_raises
 
+import readline
 import rpy2.robjects as ro
 import pandas.rpy.common as com
 from rpy2.robjects.packages import importr
